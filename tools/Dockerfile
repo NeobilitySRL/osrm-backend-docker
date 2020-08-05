@@ -1,0 +1,16 @@
+FROM osrm/osrm-backend
+
+# ADD http://download.geofabrik.de/north-america/us-northeast-latest.osm.pbf /data/
+ADD us-northeast-latest.osm.pbf /data/
+
+RUN osrm-extract -p /opt/car.lua /data/us-northeast-latest.osm.pbf
+
+RUN osrm-partition /data/us-northeast-latest.osm
+
+RUN osrm-customize /data/us-northeast-latest.osm
+
+RUN rm /data/us-northeast-latest.osm.pbf
+
+ENTRYPOINT [ "osrm-routed", "--algorithm", "mld" ]
+
+CMD [ "/data/us-northeast-latest.osm" ]
