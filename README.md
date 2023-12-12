@@ -17,3 +17,8 @@ To build a prebuilt image, use the following command:
 To run the prebuilt image, use the following command:
 
 ```docker run neobility/osrm-backend-docker:romania```
+
+***
+Published to Docker Hub under `neobility/osrm-backend-docker`
+
+https://hub.docker.com/r/neobility/osrm-backend-docker/tags
