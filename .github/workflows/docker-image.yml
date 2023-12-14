@@ -8,28 +8,31 @@ on:
   workflow_dispatch:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Build the dynamic Docker image
-      run: docker build -t neobility/osrm-backend-docker dynamic
-    
-    - name: Build the static Romania Docker image
-      run: docker build --build-arg MAP_URL=https://download.geofabrik.de/europe/romania-latest.osm.pbf -t neobility/osrm-backend-docker:romania prebuilt
-    
+
     - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+    - name: Build the dynamic Docker image
+      run: docker build -t neobility/osrm-backend-docker dynamic
+
     - name: Push dynamic Docker image
       run: docker push neobility/osrm-backend-docker
-    
+
+    - name: Build the static Romania Docker image
+      run: docker build --build-arg MAP_URL=https://download.geofabrik.de/europe/romania-latest.osm.pbf -t neobility/osrm-backend-docker:romania prebuilt
+
     - name: Push static Romania Docker image
       run: docker push neobility/osrm-backend-docker:romania
+
+    - name: Build the merged Docker image
+      run: docker build -t neobility/osrm-backend-docker:merged -f ./tools/Dockerfile-merged ./tools/
+
+    - name: Push merged Docker image
+      run: docker push neobility/osrm-backend-docker:merged
