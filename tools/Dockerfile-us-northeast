@@ -1,7 +1,6 @@
-FROM osrm/osrm-backend
+FROM ghcr.io/project-osrm/osrm-backend
 
-# ADD http://download.geofabrik.de/north-america/us-northeast-latest.osm.pbf /data/
-ADD us-northeast-latest.osm.pbf /data/
+ADD http://download.geofabrik.de/north-america/us-northeast-latest.osm.pbf /data/
 
 RUN osrm-extract -p /opt/car.lua /data/us-northeast-latest.osm.pbf
 
